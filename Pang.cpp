@@ -13,10 +13,12 @@ struct Esfera
 Esfera esfera = { 1,0,0,255,255,255 };
 Esfera esfera2 = { 1,3,0,0,255,255 };
 
+
 void OnDraw(void);
 void OnTimer(int value);
 void OnKeyboardDown(unsigned char key, int x, int y);
 void Dibuja(Esfera e);
+void Mueve(Esfera* e);void Color(Esfera* e);
 
 int main(int argc, char* argv[])
 {
@@ -52,9 +54,9 @@ void OnDraw(void)
 		0.0, 0, 0.0, // hacia que punto mira (0,0,0) 
 		
 		0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
-		
-	Dibuja(esfera);
-	Dibuja(esfera2);
+	
+  Dibuja(esfera);
+  Dibuja(esfera2);
 
 
 	//Al final, cambiar el buffer (redibujar)
@@ -63,10 +65,19 @@ void OnDraw(void)
 }
 void OnTimer(int value)
 {
+	//poner aqui el código de animacion
+	Mueve(&esfera);
+	Color(&esfera);
+	Mueve(&esfera2);
+	Color(&esfera2);
+	//no borrar estas lineas
+	glutTimerFunc(25, OnTimer, 0);
+	glutPostRedisplay();
 }
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
+	
 	if (key == '+' && esfera.radio < 3)
 		esfera.radio += 0.5f;
 	if (key == '-' && esfera.radio > 1)
@@ -98,8 +109,13 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	if (key == 's')//abajo, Y negativo
 		esfera.y -= 0.1f;
 	glutPostRedisplay();
-}void Dibuja(Esfera esfera){	glColor3ub(esfera.rojo, esfera.verde, esfera.azul);
-	glTranslatef(esfera.x, esfera.y, 0);
-	glutSolidSphere(esfera.radio, 20, 20);
+}void Dibuja(Esfera e){	glColor3ub(e.rojo, e.verde, e.azul);
+	glTranslatef(e.x, e.y, 0);
+	glutSolidSphere(e.radio, 20, 20);
 	//Vuelve al punto inicial de dibujo
-	glTranslatef(-esfera.x, -esfera.y, 0);}
+	glTranslatef(-e.x, -e.y, 0);}void Mueve(Esfera* e)
+{
+	e->radio += 0.1f;
+	if (e->radio > 3)
+		e->radio = 0.5f;
+}void Color(Esfera* e){	e->rojo += 255;}
