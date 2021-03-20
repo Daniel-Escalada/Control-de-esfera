@@ -1,5 +1,6 @@
 #include "freeglut.h"
-
+#include <math.h>
+#include <stdio.h>
 
 struct Esfera
 {
@@ -13,6 +14,20 @@ struct Esfera
 Esfera esfera = { 1,0,0,255,255,255 };
 Esfera esfera2 = { 1,3,0,0,255,255 };
 
+struct Mundo
+{
+	double x_ojo;
+	float y_ojo;
+	double z_ojo; 
+	float x_obs;
+	float y_obs; 
+	float z_obs;
+	float x_eje;
+	float y_eje;
+	float z_eje;
+
+};
+Mundo Mundo1 = { 0.0, 0, 20, 0.0, 0, 0.0, 0.0, 1.0, 0.0 };
 
 void OnDraw(void);
 void OnTimer(int value);
@@ -50,11 +65,7 @@ void OnDraw(void)
 	//Para definir el punto de vista
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(0.0, 10, 20, // posicion del ojo
-		0.0, 0, 0.0, // hacia que punto mira (0,0,0) 
-		
-		0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
-	
+	gluLookAt(Mundo1.x_ojo,Mundo1.y_ojo,Mundo1.z_ojo,Mundo1.x_obs,Mundo1.y_obs,Mundo1.z_obs,Mundo1.x_eje,Mundo1.y_eje,Mundo1.z_eje);
   Dibuja(esfera);
   Dibuja(esfera2);
 
@@ -65,6 +76,13 @@ void OnDraw(void)
 }
 void OnTimer(int value)
 {
+	//Movimiento camara
+	double d = 40;
+	double theta = atan2(Mundo1.z_ojo, Mundo1.x_ojo);
+	theta += 0.031415;
+	Mundo1.x_ojo = d * cos(theta);
+	Mundo1.z_ojo = d * sin(theta);
+	
 	//poner aqui el código de animacion
 	Mueve(&esfera);
 	Color(&esfera);
@@ -111,7 +129,7 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	glutPostRedisplay();
 }void Dibuja(Esfera e){	glColor3ub(e.rojo, e.verde, e.azul);
 	glTranslatef(e.x, e.y, 0);
-	glutSolidSphere(e.radio, 20, 20);
+	glutSolidTeapot(3);
 	//Vuelve al punto inicial de dibujo
 	glTranslatef(-e.x, -e.y, 0);}void Mueve(Esfera* e)
 {
