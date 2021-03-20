@@ -3,13 +3,17 @@
 void OnDraw(void);
 void OnTimer(int value);
 void OnKeyboardDown(unsigned char key, int x, int y);
-float radio_esfera = 2.0f;
-int rojo_esfera = 255;
-int verde_esfera = 255;
-int azul_esfera = 255;
-float x_esfera = 0.0f;
-float y_esfera = 0.0f;
 
+struct Esfera
+{
+	float radio;
+	float x;
+	float y;
+	unsigned char rojo;
+	unsigned char verde;
+	unsigned char azul;
+};
+Esfera esfera = { 1,0,0,255,255,255 };
 
 int main(int argc, char* argv[])
 {
@@ -47,9 +51,9 @@ void OnDraw(void)
 		0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
 		
 		//aqui es donde hay que poner el código de dibujo
-	glColor3ub(rojo_esfera, verde_esfera, azul_esfera);
-	glTranslatef(x_esfera, y_esfera, 0);
-	glutSolidSphere(radio_esfera, 20, 20);
+	glColor3ub(esfera.rojo, esfera.verde, esfera.azul);
+	glTranslatef(esfera.x, esfera.y, 0);
+	glutSolidSphere(esfera.radio, 20, 20);
 	
 
 
@@ -63,35 +67,35 @@ void OnTimer(int value)
 void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
-	if (key == '+' && radio_esfera < 3)
-		radio_esfera += 0.5f;
-	if (key == '-' && radio_esfera > 1)
-		radio_esfera -= 0.5f;
+	if (key == '+' && esfera.radio < 3)
+		esfera.radio += 0.5f;
+	if (key == '-' && esfera.radio > 1)
+		esfera.radio -= 0.5f;
 	if (key == 'r')
 	{
-		rojo_esfera = 255;
-		verde_esfera = 0;
-		azul_esfera = 0;
+		esfera.rojo = 255;
+		esfera.verde = 0;
+		esfera.azul = 0;
 	}
 	if (key == 'g')
 	{
-		rojo_esfera = 0;
-		verde_esfera = 255;
-		azul_esfera = 0;
+		esfera.rojo = 0;
+		esfera.verde = 255;
+		esfera.azul = 0;
 	}
 	if (key == 'b')
 	{
-		rojo_esfera = 0;
-		verde_esfera = 0;
-		azul_esfera = 255;
+		esfera.rojo = 0;
+		esfera.verde = 0;
+		esfera.azul = 255;
 	}
 	if (key == 'a')//izq, X negativo
-		x_esfera -= 0.1f;
+		esfera.x -= 0.1f;
 	if (key == 'd')//der, X positivo
-		x_esfera += 0.1f;
+		esfera.x += 0.1f;
 	if (key == 'w')//arriba, Y positivo
-		y_esfera += 0.1f;
+		esfera.y += 0.1f;
 	if (key == 's')//abajo, Y negativo
-		y_esfera -= 0.1f;
+		esfera.y -= 0.1f;
 	glutPostRedisplay();
 }
