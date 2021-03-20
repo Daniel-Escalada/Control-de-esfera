@@ -1,8 +1,5 @@
 #include "freeglut.h"
 
-void OnDraw(void);
-void OnTimer(int value);
-void OnKeyboardDown(unsigned char key, int x, int y);
 
 struct Esfera
 {
@@ -14,6 +11,12 @@ struct Esfera
 	unsigned char azul;
 };
 Esfera esfera = { 1,0,0,255,255,255 };
+Esfera esfera2 = { 1,3,0,0,255,255 };
+
+void OnDraw(void);
+void OnTimer(int value);
+void OnKeyboardDown(unsigned char key, int x, int y);
+void Dibuja(Esfera e);
 
 int main(int argc, char* argv[])
 {
@@ -50,11 +53,8 @@ void OnDraw(void)
 		
 		0.0, 1.0, 0.0); // definimos hacia arriba (eje Y)
 		
-		//aqui es donde hay que poner el código de dibujo
-	glColor3ub(esfera.rojo, esfera.verde, esfera.azul);
-	glTranslatef(esfera.x, esfera.y, 0);
-	glutSolidSphere(esfera.radio, 20, 20);
-	
+	Dibuja(esfera);
+	Dibuja(esfera2);
 
 
 	//Al final, cambiar el buffer (redibujar)
@@ -98,4 +98,8 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	if (key == 's')//abajo, Y negativo
 		esfera.y -= 0.1f;
 	glutPostRedisplay();
-}
+}void Dibuja(Esfera esfera){	glColor3ub(esfera.rojo, esfera.verde, esfera.azul);
+	glTranslatef(esfera.x, esfera.y, 0);
+	glutSolidSphere(esfera.radio, 20, 20);
+	//Vuelve al punto inicial de dibujo
+	glTranslatef(-esfera.x, -esfera.y, 0);}
