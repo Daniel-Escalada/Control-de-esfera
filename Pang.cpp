@@ -7,17 +7,18 @@ struct Esfera
 	float radio;
 	float x;
 	float y;
+	float z;
 	unsigned char rojo;
 	unsigned char verde;
 	unsigned char azul;
 };
-Esfera esfera = { 1,0,0,255,255,255 };
+Esfera esfera = { 1,20,0,0,255,255,255 };
 Esfera esfera2 = { 1,3,0,0,255,255 };
 
 struct Mundo
 {
 	double x_ojo;
-	float y_ojo;
+	double y_ojo;
 	double z_ojo; 
 	float x_obs;
 	float y_obs; 
@@ -27,7 +28,7 @@ struct Mundo
 	float z_eje;
 
 };
-Mundo Mundo1 = { 0.0, 0, 20, 0.0, 0, 0.0, 0.0, 1.0, 0.0 };
+Mundo Mundo1 = { 50, 0, 0, 0.0, 0, 0.0, 0.0, 0.0, 1.0 };
 
 void OnDraw(void);
 void OnTimer(int value);
@@ -66,8 +67,44 @@ void OnDraw(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(Mundo1.x_ojo,Mundo1.y_ojo,Mundo1.z_ojo,Mundo1.x_obs,Mundo1.y_obs,Mundo1.z_obs,Mundo1.x_eje,Mundo1.y_eje,Mundo1.z_eje);
-  Dibuja(esfera);
-  Dibuja(esfera2);
+	//Toroides exteriores
+	glColor3ub(0, 255, 255);
+	glTranslatef(0, 0, 7);
+	glutSolidTorus(1, 20, 50, 50);
+	glTranslatef(0, 0, -14);
+	glutSolidTorus(1, 20, 50, 50);
+	glTranslatef(0, 0, 7);
+	//Cubos
+	glColor3ub(255, 0, 255);
+	glTranslatef(0, 20, 4.5);
+	glutSolidDodecahedron();	glTranslatef(14.14, -5.86, -6.75);
+	glutSolidDodecahedron();
+	glTranslatef(5.86, -14.14, 2.25);
+	glutSolidDodecahedron();
+	//Doble
+	glTranslatef(-5.86, -14.14, 3.25);
+	glutSolidDodecahedron();
+	glTranslatef(0, 0, -6.5);
+	glutSolidDodecahedron();
+	glTranslatef(-14.14, -5.86, 3.25);
+	glutSolidDodecahedron();
+	glTranslatef(-14.14, 5.86, -4.5);
+	glutSolidDodecahedron();
+	glTranslatef(-5.86, 14.14, 6.5);
+	glutSolidDodecahedron();
+	//Triple
+	glTranslatef(5.86, 14.14, 2.5);
+	glutSolidDodecahedron();
+	glTranslatef(0, 0, -9);
+	glutSolidDodecahedron();
+	glTranslatef(0, 0, 4.5);
+	glutSolidDodecahedron();
+
+	glTranslatef(14.14, -14.14, 0);
+	
+
+	Dibuja(esfera);
+   
 
 
 	//Al final, cambiar el buffer (redibujar)
@@ -77,17 +114,17 @@ void OnDraw(void)
 void OnTimer(int value)
 {
 	//Movimiento camara
-	double d = 40;
-	double theta = atan2(Mundo1.z_ojo, Mundo1.x_ojo);
-	theta += 0.031415;
+	double d = 50;
+	double theta = atan2(Mundo1.y_ojo, Mundo1.x_ojo);
+	theta += 0.0061415;
 	Mundo1.x_ojo = d * cos(theta);
-	Mundo1.z_ojo = d * sin(theta);
+	Mundo1.y_ojo = d * sin(theta);
 	
 	//poner aqui el código de animacion
-	Mueve(&esfera);
-	Color(&esfera);
-	Mueve(&esfera2);
-	Color(&esfera2);
+	
+
+	
+
 	//no borrar estas lineas
 	glutTimerFunc(25, OnTimer, 0);
 	glutPostRedisplay();
@@ -96,10 +133,11 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
 	
-	if (key == '+' && esfera.radio < 3)
-		esfera.radio += 0.5f;
-	if (key == '-' && esfera.radio > 1)
-		esfera.radio -= 0.5f;
+	if (key == '+')
+		esfera.radio += 1;
+	if (key == '-')
+		esfera.radio -= 1;
+	
 	if (key == 'r')
 	{
 		esfera.rojo = 255;
@@ -118,20 +156,35 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 		esfera.verde = 0;
 		esfera.azul = 255;
 	}
+	/*
 	if (key == 'a')//izq, X negativo
-		esfera.x -= 0.1f;
+		esfera.x -= 1;
 	if (key == 'd')//der, X positivo
-		esfera.x += 0.1f;
+		esfera.x += 1;
 	if (key == 'w')//arriba, Y positivo
-		esfera.y += 0.1f;
+		esfera.y += 1;
 	if (key == 's')//abajo, Y negativo
-		esfera.y -= 0.1f;
-	glutPostRedisplay();
+		esfera.y -= 1;
+		*/
+	if (key == 'j')//arriba, z positivo
+		esfera.z += 1;
+	if (key == 'm')//abajo, z negativo
+		esfera.z -= 1;
+	
+	//glutPostRedisplay();
 }void Dibuja(Esfera e){	glColor3ub(e.rojo, e.verde, e.azul);
-	glTranslatef(e.x, e.y, 0);
-	glutSolidTeapot(3);
+	//Angulos esfera
+	
+	double d = 20;
+	double theta = atan2(esfera.y, esfera.x);
+	theta += 0.0061415;
+	esfera.x = d * cos(theta);
+	esfera.y = d * sin(theta);
+	
+	glTranslatef(esfera.x, esfera.y, esfera.z);
+	glutSolidSphere(esfera.radio,50,50);
 	//Vuelve al punto inicial de dibujo
-	glTranslatef(-e.x, -e.y, 0);}void Mueve(Esfera* e)
+	glTranslatef(-esfera.x, -esfera.y, -esfera.z);	}void Mueve(Esfera* e)
 {
 	e->radio += 0.1f;
 	if (e->radio > 3)
