@@ -14,6 +14,7 @@ struct Esfera
 };
 Esfera esfera = { 1,20,0,0,255,0,0};
 Esfera esfera2 = { 1,3,0,0,255,255 };
+float r=1.5;
 
 struct Mundo
 {
@@ -34,7 +35,7 @@ void OnDraw(void);
 void OnTimer(int value);
 void OnKeyboardDown(unsigned char key, int x, int y);
 void Dibuja(Esfera e);
-void Mueve(Esfera* e);void Color(Esfera* e);
+void Mueve(Esfera* e);void Color(Esfera* e);void Obstaculos(float* e);
 
 int main(int argc, char* argv[])
 {
@@ -77,28 +78,28 @@ void OnDraw(void)
 	//Cubos
 	glColor3ub(255, 0, 255);
 	glTranslatef(0, 20, 4.5);
-	glutSolidDodecahedron();	glTranslatef(14.14, -5.86, -6.75);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);	glTranslatef(14.14, -5.86, -6.75);
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(5.86, -14.14, 2.25);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	//Doble
 	glTranslatef(-5.86, -14.14, 3.25);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(0, 0, -6.5);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(-14.14, -5.86, 3.25);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(-14.14, 5.86, -4.5);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(-5.86, 14.14, 6.5);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	//Triple
 	glTranslatef(5.86, 14.14, 2.5);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(0, 0, -9);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 	glTranslatef(0, 0, 4.5);
-	glutSolidDodecahedron();
+	glutSolidSphere(r, 50, 50);
 
 	glTranslatef(14.14, -14.14, 0);
 	
@@ -121,7 +122,7 @@ void OnTimer(int value)
 	Mundo1.y_ojo = d * sin(theta);
 	
 	//poner aqui el código de animacion
-	
+	Obstaculos(&r);
 
 	
 
@@ -189,4 +190,5 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	e->radio += 0.1f;
 	if (e->radio > 3)
 		e->radio = 0.5f;
-}void Color(Esfera* e){	unsigned int choice1 = rand();	unsigned int choice2 = rand();	unsigned int choice3 = rand();	e->rojo = choice1;	e->verde = choice2;	e->azul = choice3;}
+}void Color(Esfera* e){	unsigned int choice1 = rand();	unsigned int choice2 = rand();	unsigned int choice3 = rand();	e->rojo = choice1;	e->verde = choice2;	e->azul = choice3;}void Obstaculos(float* e){	*e += 0.02;
+	if (*e > 1.5) 		*e = 0.5;}
