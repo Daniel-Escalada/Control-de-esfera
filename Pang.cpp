@@ -12,7 +12,7 @@ struct Esfera
 	unsigned char verde;
 	unsigned char azul;
 };
-Esfera esfera = { 1,20,0,0,255,255,255 };
+Esfera esfera = { 1,20,0,0,255,0,0};
 Esfera esfera2 = { 1,3,0,0,255,255 };
 
 struct Mundo
@@ -105,7 +105,7 @@ void OnDraw(void)
 
 	Dibuja(esfera);
    
-
+	printf("%d\n",esfera.rojo);
 
 	//Al final, cambiar el buffer (redibujar)
 	//no borrar esta linea ni poner nada despues
@@ -116,7 +116,7 @@ void OnTimer(int value)
 	//Movimiento camara
 	double d = 50;
 	double theta = atan2(Mundo1.y_ojo, Mundo1.x_ojo);
-	theta += 0.0061415;
+	theta += 0.0091415;
 	Mundo1.x_ojo = d * cos(theta);
 	Mundo1.y_ojo = d * sin(theta);
 	
@@ -133,10 +133,10 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 {
 	//poner aqui el código de teclado
 	
-	if (key == '+')
-		esfera.radio += 1;
-	if (key == '-')
-		esfera.radio -= 1;
+	if (key == '+' && esfera.radio < 3)
+		esfera.radio += 0.1;
+	if (key == '-' && esfera.radio > 0.3)
+		esfera.radio -= 0.1;
 	
 	if (key == 'r')
 	{
@@ -167,9 +167,9 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 		esfera.y -= 1;
 		*/
 	if (key == 'j')//arriba, z positivo
-		esfera.z += 1;
+		esfera.z += 0.5;
 	if (key == 'm')//abajo, z negativo
-		esfera.z -= 1;
+		esfera.z -= 0.5;
 	
 	//glutPostRedisplay();
 }void Dibuja(Esfera e){	glColor3ub(e.rojo, e.verde, e.azul);
@@ -177,7 +177,7 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	
 	double d = 20;
 	double theta = atan2(esfera.y, esfera.x);
-	theta += 0.0061415;
+	theta += 0.0091415;
 	esfera.x = d * cos(theta);
 	esfera.y = d * sin(theta);
 	
@@ -189,4 +189,4 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	e->radio += 0.1f;
 	if (e->radio > 3)
 		e->radio = 0.5f;
-}void Color(Esfera* e){	e->rojo += 255;}
+}void Color(Esfera* e){	unsigned int choice1 = rand();	unsigned int choice2 = rand();	unsigned int choice3 = rand();	e->rojo = choice1;	e->verde = choice2;	e->azul = choice3;}
