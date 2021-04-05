@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="esfera.cpp" />
     <ClCompile Include="Pang.cpp" />
   </ItemGroup>
   <ItemGroup>

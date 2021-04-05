@@ -37,6 +37,12 @@ int main(int argc, char* argv[])
 	glutDisplayFunc(OnDraw);
 	glutTimerFunc(25, OnTimer, 0);//25 ms
 	glutKeyboardFunc(OnKeyboardDown);
+	//Inicializacion de los datos de la simulacion
+
+	esfera.setColor(200, 0, 0);
+	esfera2.setColor(0, 200, 0);
+
+
 	//pasarle el control a FREEGLUT,que llamara a los callbacks
 	glutMainLoop();
 	return 0;
@@ -120,24 +126,9 @@ void OnKeyboardDown(unsigned char key, int x_t, int y_t)
 	if (key == '-' && esfera.radio > 0.3)
 		esfera.radio -= 0.1;
 	
-	if (key == 'r')
-	{
-		esfera.rojo = 255;
-		esfera.verde = 0;
-		esfera.azul = 0;
-	}
-	if (key == 'g')
-	{
-		esfera.rojo = 0;
-		esfera.verde = 255;
-		esfera.azul = 0;
-	}
-	if (key == 'b')
-	{
-		esfera.rojo = 0;
-		esfera.verde = 0;
-		esfera.azul = 255;
-	}
+	if (key == 'r')esfera.setColor(255, 0, 0);
+	if (key == 'g')esfera.setColor(0, 255, 0);
+	if (key == 'b')esfera.setColor(0, 0, 255);
 	/*
 	if (key == 'a')//izq, X negativo
 		esfera.x -= 1;

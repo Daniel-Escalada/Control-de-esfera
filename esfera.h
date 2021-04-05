@@ -11,10 +11,6 @@ public:
 	unsigned char azul;
 
 	//Modificar color esfera
-	void setColor(unsigned char r, unsigned char v, unsigned char a)
-	{
-		rojo = r;
-		verde = v;
-		azul = a;
-	}
+	void setColor(unsigned char r, unsigned char v, unsigned char a);
+	
 };
