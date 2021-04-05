@@ -1,34 +1,15 @@
 #include "freeglut.h"
 #include <math.h>
 #include <stdio.h>
+#include "esfera.h"
+#include "mundo.h"
 
-struct Esfera
-{
-	float radio;
-	float x;
-	float y;
-	float z;
-	unsigned char rojo;
-	unsigned char verde;
-	unsigned char azul;
-};
+
 Esfera esfera = { 1,20,0,0,255,0,0};
 Esfera esfera2 = { 1,3,0,0,255,255 };
 float r=1.5;
 
-struct Mundo
-{
-	double x_ojo;
-	double y_ojo;
-	double z_ojo; 
-	float x_obs;
-	float y_obs; 
-	float z_obs;
-	float x_eje;
-	float y_eje;
-	float z_eje;
 
-};
 Mundo Mundo1 = { 50, 0, 0, 0.0, 0, 0.0, 0.0, 0.0, 1.0 };
 
 void OnDraw(void);
@@ -106,7 +87,7 @@ void OnDraw(void)
 
 	Dibuja(esfera);
    
-	printf("%d\n",esfera.rojo);
+	//printf("%d\n",esfera.rojo);
 
 	//Al final, cambiar el buffer (redibujar)
 	//no borrar esta linea ni poner nada despues

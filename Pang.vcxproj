@@ -141,6 +141,10 @@
   <ItemGroup>
     <ClCompile Include="Pang.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="esfera.h" />
+    <ClInclude Include="mundo.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
